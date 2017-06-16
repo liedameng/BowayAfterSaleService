@@ -11,25 +11,25 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.boway.sale.SaleApplication;
-import com.boway.sale.db.IMSIDBHelper;
+import com.boway.sale.db.PhoneNumberDBHelper;
 
-public class IMSIQueryDao {
+public class PhoneNumberQueryDao {
 	private static final String TAG = null;
-	private IMSIDBHelper mHelper;
+	private PhoneNumberDBHelper mHelper;
 	private Context mContext;
-    public IMSIQueryDao(Context context){
-    	mHelper = new IMSIDBHelper(context);
+    public PhoneNumberQueryDao(Context context){
+    	mHelper = new PhoneNumberDBHelper(context);
     	mContext = context;
     }
     
-    public synchronized boolean findImsi(String imsi1,String imsi2){
+    public synchronized boolean findImsi(String number1,String number2){
     	boolean isFind = false;
     	SQLiteDatabase db = mHelper.getReadableDatabase();
     	db.close();
     	copPhoneAddressDB();
     	File file = mContext.getFilesDir();
-		SQLiteDatabase sql = SQLiteDatabase.openDatabase(file.getAbsolutePath()+"/imsi.db", null, SQLiteDatabase.OPEN_READONLY);
-    	Cursor cursor = sql.rawQuery("select imsi from IMSI_TB where imsi = ? or imsi = ?", new String[]{imsi1,imsi2});
+		SQLiteDatabase sql = SQLiteDatabase.openDatabase(file.getAbsolutePath()+"/phone_number.db", null, SQLiteDatabase.OPEN_READONLY);
+    	Cursor cursor = sql.rawQuery("select number from NUMBER_TB where number = ? or number = ?", new String[]{number1,number2});
     	if(cursor != null && cursor.moveToNext())
 		{
     		isFind = true;
@@ -39,14 +39,14 @@ public class IMSIQueryDao {
     	return isFind;
     }
     
-    public synchronized boolean findImsi(String imsi){
+    public synchronized boolean findNumber(String number){
     	boolean isFind = false;
     	SQLiteDatabase db = mHelper.getReadableDatabase();
     	db.close();
     	copPhoneAddressDB();
     	File file = mContext.getFilesDir();
-		SQLiteDatabase sql = SQLiteDatabase.openDatabase(file.getAbsolutePath()+"/imsi.db", null, SQLiteDatabase.OPEN_READONLY);
-    	Cursor cursor = sql.rawQuery("select imsi from IMSI_TB where imsi = ?", new String[]{imsi});
+		SQLiteDatabase sql = SQLiteDatabase.openDatabase(file.getAbsolutePath()+"/phone_number.db", null, SQLiteDatabase.OPEN_READONLY);
+    	Cursor cursor = sql.rawQuery("select number from NUMBER_TB where number = ?", new String[]{number});
     	if(cursor != null && cursor.moveToNext())
 		{
     		isFind = true;
@@ -58,7 +58,7 @@ public class IMSIQueryDao {
     
     private void copPhoneAddressDB() {
 		Log.i(TAG,"jlzou copPhoneAddressDB");
-		File file = new File(mContext.getFilesDir(), "imsi.db");
+		File file = new File(mContext.getFilesDir(), "phone_number.db");
 		if(file.exists() && file.length() > 0)
 		{
 			Log.i(TAG,"no need copy DB");

@@ -2,7 +2,7 @@ package com.boway.sale.service;
 
 import com.android.internal.telephony.ITelephony;
 import com.android.internal.telephony.PhoneConstants;
-import com.boway.sale.CloseRemindDialog;
+import com.boway.sale.util.RemindDialogUtil;
 
 import android.app.Service;
 import android.content.Context;
@@ -21,7 +21,12 @@ public class MSIMMODEService extends Service {
 
 	private static final String TAG = "MSIMMODEService";
 	private static final int MODE_PHONE1_ONLY = 1;
-	SharedPreferences sp;
+	private SharedPreferences sp;
+	private RemindDialogUtil dialogUtil;
+	
+	private boolean needLockSim1;
+	private boolean needLockSim2;
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
@@ -31,70 +36,93 @@ public class MSIMMODEService extends Service {
 	@Override
 	public void onCreate() {
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
+		dialogUtil = new RemindDialogUtil(this);
 		super.onCreate();
 	}
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
-        boolean needDisableSim1 = sp.getBoolean("needDisableSim1", false);
-        Log.i(TAG, "jlzou needDisableSim1:" + needDisableSim1);
+        needLockSim1 = sp.getBoolean("needLockSim1", false);
+        Log.i(TAG, "jlzou needDisableSim1:" + needLockSim1);
         
-        if(needDisableSim1){
+        needLockSim2 = sp.getBoolean("needLockSim2", false);
+        Log.i(TAG, "jlzou needDisableSim2:" + needLockSim2);
+        
+        if(needLockSim1){
+        	dialogUtil.addView(MSIMMODEService.this);
         	mHandler.sendEmptyMessage(1);
-        }
-        boolean needDisableSim2 = sp.getBoolean("needDisableSim2", false);
-        Log.i(TAG, "jlzou needDisableSim2:" + needDisableSim2);
-        if(needDisableSim2){
+        }else if(needLockSim2){
+        	dialogUtil.addView(MSIMMODEService.this);
         	mHandler.sendEmptyMessage(2);
         }
         
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	Handler mHandler = new Handler(){
-    	public void handleMessage(android.os.Message msg) {
-    		switch(msg.what){
-    		case 1:
-    			Log.i(TAG, "jlzou 1:");
-    			new Handler().postDelayed(new Runnable() {
-					
+	Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 1:
+				Log.i(TAG, "jlzou 1:");
+
+				new Handler().postDelayed(new Runnable() {
+
 					@Override
 					public void run() {
-						if(isRadioOn(getSubIdBySlot(PhoneConstants.SIM_ID_1),MSIMMODEService.this)){
+							
+						if (isRadioOn(getSubIdBySlot(PhoneConstants.SIM_ID_1),
+								MSIMMODEService.this)) {
 							Log.i(TAG, "jlzou setRadionOn1:");
-							setRadionOn(getSubIdBySlot(PhoneConstants.SIM_ID_1),false);
-							showRemindDialog(1);
+							setRadionOn(
+									getSubIdBySlot(PhoneConstants.SIM_ID_1),
+									false);
+						}else{
+							Log.i(TAG, "jlzou isRadioOn1 false ");
 						}
+						if(needLockSim2){
+				        	mHandler.sendEmptyMessage(2);
+				        }else{
+				        	dialogUtil.removeView(MSIMMODEService.this);
+				        	stopSelf();
+				        }
 					}
-				}, 10 * 1000L);
-    			break;
-    		case 2:
-    			Log.i(TAG, "jlzou 2:");
-                new Handler().postDelayed(new Runnable() {
-					
+				}, 5 * 1000L);
+
+				break;
+			case 2:
+				Log.i(TAG, "jlzou 2:");
+				new Handler().postDelayed(new Runnable() {
+
 					@Override
 					public void run() {
-						if(isRadioOn(getSubIdBySlot(PhoneConstants.SIM_ID_2),MSIMMODEService.this)){
+						if (isRadioOn(getSubIdBySlot(PhoneConstants.SIM_ID_2),
+								MSIMMODEService.this)) {
 							Log.i(TAG, "jlzou setRadionOn2:");
-							setRadionOn(getSubIdBySlot(PhoneConstants.SIM_ID_2),false);
-							showRemindDialog(2);
+							setRadionOn(
+									getSubIdBySlot(PhoneConstants.SIM_ID_2),
+									false);
 						}
+						else{
+							Log.i(TAG, "jlzou isRadioOn2 false ");
+						}
+						
+						dialogUtil.removeView(MSIMMODEService.this);
+						stopSelf();
 					}
-				}, 10 * 1000L);
-    			
-    			break;
-    		}
-    	};
-    };
+				}, 5 * 1000L);
+				break;
+			}
+		}
+	};
     
-    private void showRemindDialog(int simId){
-    	Intent intent = new Intent(this,CloseRemindDialog.class);
-    	intent.putExtra("simId", simId);
-    	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-    	startActivity(intent);
-    }
+//    private void showRemindDialog(int simId){
+//    	Intent intent = new Intent(this,CloseRemindDialog.class);
+//    	intent.putExtra("simId", simId);
+//    	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+//    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//    	startActivity(intent);
+//    }
 
     public boolean setRadionOn(int subId, boolean turnOn) {
         Log.d(TAG, "setRadionOn, turnOn: " + turnOn + ", subId = " + subId);

@@ -4,12 +4,10 @@
     <string name="app_name">售后服务</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
     <string name="sale_product_properties">了解品牌资讯.掌握优惠信息</string>
     <string name="sale_product_paper">查询服务网点.查询维修进度.查询手机真伪</string>
     <string name="service_mode_text">服务方式</string>
     <string name="electronic_information_text">电子保卡</string>
-    
     <string name="wechat_text">微信服务</string>
     <string name="browser_text">浏览官网</string>
     <string name="artificial_text">人工服务</string>
@@ -17,7 +15,6 @@
     <string name="boway_address_path">www.boway.com/Service</string>
     <string name="boway_phone_number">热线:4007-006-005</string>
     <string name="boway_qq_number">QQ:4007006005</string>
-    
     <string name="qr_attention">如何添加关注？</string>
     <string name="qr_method_one">方法一：</string>
     <string name="qr_method_one_describe_first">使用你的其他设备或者亲友的设备，</string>
@@ -30,8 +27,7 @@
     <string name="qr_method_three_describe_third">即可添加关注</string>
     <string name="qr_btm_text">保存二维码到相册</string>
     <string name="save_ok">保存成功</string>
-	<string name="copy_boway_qq_toast">已复制此QQ号码</string>
-    
+    <string name="copy_boway_qq_toast">已复制此QQ号码</string>
     <string name="electronic_register">邦华电子保卡注册</string>
     <string name="electronic_information">欢迎注册电子保卡。\n电子保卡与纸质保修卡等效，注册成功后，您无需携带纸质保修卡亦可获得全国客户服务网点的便携服务。注册过程仅需发送一条短信，此短信邦华不收取任何费用，仅由运营商收取基本短信费用。</string>
     <string name="electronic_register_success_information">您已成功注册电子保卡。\n电子保卡与纸质保修卡等效，您无需携带纸质保修卡亦可获得全国客户服务网点的便捷服务。</string>
@@ -41,20 +37,31 @@
     <string name="register_text">注册</string>
     <string name="register_code_error">注册码输入错误！</string>
     <string name="sendSuccess">电子保卡发送成功, 时间：%1$s</string>
-	<string name="sendFailure">电子保卡发送失败, 当前已失败%1$s次! </string>
-	<string name="sim_check_error">无SIM卡，请插入有效SIM卡再注册！</string>
-	<string name="register_failt">注册失败！</string>
-	<string name="registering">正在注册，请稍等...</string>
-	
-	<string name="contry">中国</string>
-	<string name="register_conditions">请插入有效SIM卡，并保持网络畅通.</string>
-	
-	<string name="smsreg">电子保卡信息</string>
+    <string name="sendFailure">电子保卡发送失败, 当前已失败%1$s次! </string>
+    <string name="sim_check_error">无SIM卡，请插入有效SIM卡再注册！</string>
+    <string name="register_failt">注册失败！</string>
+    <string name="registering">正在注册，请稍等...</string>
+    <string name="contry">中国</string>
+    <string name="register_conditions">请插入有效SIM卡，并保持网络畅通.</string>
+    <string name="smsreg">电子保卡信息</string>
     <string name="smsregTips">正常持续不间断待机4小时后将发送您的电子保卡信息!</string>
     <string name="ok">"确定"</string>
     <string name="smsregMms">短信：</string>
     <string name="smsregNetwork">网络：</string>
-    <string name="lock_remind_message">您的号码不在本机允许范围</string>
-    <string name="close_sim1_remind_message">SIM卡1号码不在本机允许范围</string>
-    <string name="close_sim2_remind_message">SIM卡2号码不在本机允许范围</string>
+    <!-- Add by suiyuan.tong, 20170224, for check phone number -->
+    <string name="title_activity_phone_number_check">验证手机号码</string>
+    <string name="check_phone_number_title">"本手机为享受潍坊移动优惠补贴的专属手机，仅限潍坊移动用户使用.\n\n请输入本机号码:"</string>
+    <string name="close_sim_remind">"本手机为享受潍坊移动优惠补贴的专属手机，仅限潍坊移动用户使用.\n\n如果您已插入潍坊移动卡，请重启手机重新验证"</string>
+    <string name="check_number_not_weifang">"您输入的号码非潍坊移动号码，无法使用该手机."</string>
+    <string name="check_number_not_phone_sim">"您输入的号码与您手机卡号码不符，无法使用该手机."</string>
+    <string name="check_number_not_phone_sim1">"您输入的卡1号码与您手机卡1号码不符，卡1无法使用该手机."</string>
+    <string name="check_number_not_phone_sim2">"您输入的卡2号码与您手机卡2号码不符，卡2无法使用该手机."</string>
+    <string name="check_sim_1">卡1:</string>
+    <string name="check_sim_2">卡2:</string>
+    <string name="check_hint_no_sim">未检测到sim卡</string>
+    <string name="check_hint_please_input_number">请输入本机号码</string>
+    <string name="check_button">验证</string>
+    <string name="check_checking">正在验证,请稍候...</string>
+    <string name="check_airplanemode">检测到手机处于飞行模式中,请关闭飞行模式.</string>
+
 </resources>
