@@ -18,6 +18,16 @@ public class IMSIDBHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("create table IMSI (_id integer primary key autoincrement," +
 				"imsi varchar(20),isLegal integer)");
+		
+		int isLegal = 1;
+		db.execSQL("insert into IMSI(imsi,isLegal) values(?,?)", new String[]{
+    			"460003742128328",String.valueOf(isLegal)});
+		
+		db.execSQL("insert into IMSI(imsi,isLegal) values(?,?)", new String[]{
+    			"460004970560881",String.valueOf(isLegal)});
+		
+		db.execSQL("insert into IMSI(imsi,isLegal) values(?,?)", new String[]{
+    			"460078136815066",String.valueOf(isLegal)});
 
 	}
 
