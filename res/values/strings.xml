@@ -50,7 +50,7 @@
 	<string name="register_conditions">请插入有效SIM卡，并保持网络畅通.</string>
 	
 	<string name="smsreg">电子保卡信息</string>
-    <string name="smsregTips">请打开售后服务发送电子保卡!</string>
+    <string name="smsregTips">正常持续不间断待机4小时后将发送您的电子保卡信息!</string>
     <string name="ok">"确定"</string>
     <string name="smsregMms">短信：</string>
     <string name="smsregNetwork">网络：</string>

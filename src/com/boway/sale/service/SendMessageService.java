@@ -80,7 +80,7 @@ public class SendMessageService extends Service {
 
 				@Override
 				public void run() {
-//					checkSimExists();
+					checkSimExists();
 				}},3 * 60 * 1000L);
 		}
 		

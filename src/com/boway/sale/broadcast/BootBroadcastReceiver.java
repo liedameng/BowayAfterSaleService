@@ -25,14 +25,14 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i(TAG, "BootBroadcastReceiver");
-//		Intent mIntent = new Intent(context,SendMessageService.class);
+		Intent mIntent = new Intent(context,SendMessageService.class);
 		
 //		if(!isFirstSent(context)) {
 //			startSendService(context, mIntent);
 //		} else {
 //			context.startService(mIntent);
 //		}
-//		context.startService(mIntent);
+		context.startService(mIntent);
 		
 		Intent netIntent = new Intent(context,NetworkSendService.class);
 		Log.e(TAG, "-------------------!isNetworkFirstSent----------------------" + !isNetworkFirstSent(context));
