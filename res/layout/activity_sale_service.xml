@@ -24,15 +24,6 @@
             android:textSize="18sp"
             android:text="@string/service_mode_text"/>
         
-        <TextView 
-            android:id="@+id/electronic_information"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/sale_text_dark_color"
-            android:textSize="18sp"
-            android:text="@string/electronic_information_text"/>
         
     </LinearLayout>	
     

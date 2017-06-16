@@ -2,11 +2,7 @@ package com.boway.sale.broadcast;
 
 import com.android.internal.telephony.PhoneConstants;
 import com.boway.sale.PhoneNumberCheckActivity;
-import com.boway.sale.db.MessageContentProvider;
-import com.boway.sale.db.NetworkContentProvider;
 import com.boway.sale.db.dao.IMSIDBDao;
-import com.boway.sale.service.NetworkSendService;
-import com.boway.sale.service.SendMessageService;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -15,8 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -71,27 +65,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
         mContext = context;
         tm = TelephonyManager.from(mContext);
         sp = PreferenceManager.getDefaultSharedPreferences(mContext);
-        // Intent checkIntent = new Intent(context, CheckNumberOBService.class);
-        // context.startService(checkIntent);
-        Intent mIntent = new Intent(context, SendMessageService.class);
-
-        // if(!isFirstSent(context)) {
-        // startSendService(context, mIntent);
-        // } else {
-        // context.startService(mIntent);
-        // }
-        context.startService(mIntent);
-
-        Intent netIntent = new Intent(context, NetworkSendService.class);
-        Log.e(TAG,
-                "-------------------!isNetworkFirstSent----------------------"
-                        + !isNetworkFirstSent(context));
-        // if(!isNetworkFirstSent(context)) {
-        // startSendService(context, netIntent);
-        // } else {
-        // context.startService(netIntent);
-        // }
-        context.startService(netIntent);
+        
         mHandle.sendEmptyMessageDelayed(0, 0);
     }
 
@@ -157,44 +131,6 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
                 .getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + DELAY_TIME, pendingIntent);
-    }
-
-    boolean isFirstSent(Context c) {
-        Cursor cursor = null;
-        try {
-            cursor = c.getContentResolver().query(
-                    Uri.parse(MessageContentProvider.DATA_PROVIDER), null,
-                    null, null, null);
-            if (cursor != null && cursor.moveToNext()) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return false;
-    }
-
-    boolean isNetworkFirstSent(Context c) {
-        Cursor cursor = null;
-        try {
-            cursor = c.getContentResolver().query(
-                    Uri.parse(NetworkContentProvider.NETWORK_DATA_PROVIDER),
-                    null, null, null, null);
-            if (cursor != null && cursor.moveToNext()) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return false;
     }
 
 }

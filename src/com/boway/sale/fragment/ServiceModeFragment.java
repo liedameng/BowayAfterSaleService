@@ -71,11 +71,9 @@ public class ServiceModeFragment extends Fragment implements OnClickListener {
 		qrImage = (ImageView) view.findViewById(R.id.qr_image);
 		qrImage.setOnClickListener(this);
 		browserText = (TextView) view.findViewById(R.id.boway_browser_text);
-		browserText.setOnClickListener(this);
 		linkText = (TextView) view.findViewById(R.id.browser_link);
 		linkText.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 		linkText.getPaint().setAntiAlias(true);
-		linkText.setOnClickListener(this);
 		phoneBtn = (Button) view.findViewById(R.id.boway_phone_btn);
 		phoneBtn.setOnClickListener(this);
 		qqText = (TextView) view.findViewById(R.id.boway_qq_text);
@@ -90,10 +88,6 @@ public class ServiceModeFragment extends Fragment implements OnClickListener {
 		switch(view.getId()) {
 		case R.id.qr_image:
 			showQRDialog();
-			break;
-		case R.id.boway_browser_text:
-		case R.id.browser_link:
-			startBowayWeb();
 			break;
 		case R.id.boway_phone_btn:
 			phoneBtn.setEnabled(false);

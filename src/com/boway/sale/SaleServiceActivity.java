@@ -3,7 +3,6 @@ package com.boway.sale;
 import java.util.ArrayList;
 
 import com.boway.sale.R;
-import com.boway.sale.fragment.ElectronicInformationFragment;
 import com.boway.sale.fragment.ServiceModeFragment;
 
 import android.content.pm.ActivityInfo;
@@ -25,7 +24,6 @@ public class SaleServiceActivity extends FragmentActivity implements OnClickList
 	private final static String TAG = "SaleServiceActivity";
 	
 	private TextView serviceMode;
-	private TextView electronicInformation;
 	
 	private ArrayList<Fragment> mFragments;
 	private ViewPager mViewpager;
@@ -43,14 +41,10 @@ public class SaleServiceActivity extends FragmentActivity implements OnClickList
 	private void initView() {
 		serviceMode = (TextView) findViewById(R.id.service_mode);
 		serviceMode.setOnClickListener(this);
-		electronicInformation = (TextView) findViewById(R.id.electronic_information);
-		electronicInformation.setOnClickListener(this);
 		
 		mFragments = new ArrayList<Fragment>();
 		Fragment serviceModeFragment = new ServiceModeFragment();
-		Fragment electronicInformationFragment = new ElectronicInformationFragment();
 		mFragments.add(serviceModeFragment);
-		mFragments.add(electronicInformationFragment);
 		
 		mViewpager = (ViewPager) this.findViewById(R.id.viewpager);
 		mViewpager.setAdapter(new SaleServicePagerAdapter(getSupportFragmentManager(),mFragments));
@@ -65,10 +59,8 @@ public class SaleServiceActivity extends FragmentActivity implements OnClickList
 			switch(position) {
 			case 0:
 				serviceMode.setTextColor(Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
-				electronicInformation.setTextColor(Color.argb(0x7F, 0xFF, 0xFF, 0xFF));
 				break;
 			case 1:
-				electronicInformation.setTextColor(Color.argb(0xFF, 0xFF, 0xFF, 0xFF));
 				serviceMode.setTextColor(Color.argb(0x7F, 0xFF, 0xFF, 0xFF));
 				break;
 			}
@@ -109,9 +101,6 @@ public class SaleServiceActivity extends FragmentActivity implements OnClickList
 		switch(view.getId()) {
 		case R.id.service_mode:
 			mViewpager.setCurrentItem(0);
-			break;
-		case R.id.electronic_information:
-			mViewpager.setCurrentItem(1);
 			break;
 		}
 	}

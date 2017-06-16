@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.boway.sale"
     android:sharedUserId="android.uid.system"
-    android:versionCode="31"
-    android:versionName="1.5.10" >
+    android:versionCode="33"
+    android:versionName="1.5.12" >
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -20,7 +20,6 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     
@@ -39,12 +38,6 @@
             </intent-filter>
         </activity>
         
-        <activity 
-            android:exported="true"
-            android:name="com.boway.sale.QuerySaleData"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.Alert" tools:targetApi="22" tools:ignore="NewApi">
-        </activity>
-        
         <activity
             android:name=".PhoneNumberCheckActivity"
             android:screenOrientation="portrait"
@@ -57,16 +50,10 @@
             </intent-filter>
         </receiver>
         
-        <receiver android:name="com.boway.sale.broadcast.NetworkBroadcastReceiver">
-             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <action android:name="com.boway.deskdate.updatedWeatherDB"/>
-            </intent-filter>
-        </receiver>
-        
         <receiver android:name="com.boway.sale.broadcast.MSIMMODEReceiver">
             <intent-filter >
                 <action android:name="android.intent.action.MSIM_MODE"/>
+                <action android:name="com.mediatek.internal.telephony.RadioManager.intent.action.FORCE_SET_RADIO_POWER"/>
             </intent-filter>
         </receiver>
         <receiver android:name="com.boway.sale.broadcast.AirplaneModeReceiver" >
@@ -75,24 +62,9 @@
             </intent-filter>
         </receiver>
         
-        <service android:name="com.boway.sale.service.SendMessageService">
-        </service>
-        
-        <service android:name="com.boway.sale.service.NetworkSendService">
-        </service>
         <service android:name="com.boway.sale.service.SubService"></service>
         <service android:name="com.boway.sale.service.MessageVerifySevice"></service>
         <service android:name="com.boway.sale.service.MSIMMODEService"></service>
-         
-        <provider android:name="com.boway.sale.db.MessageContentProvider" 
-            android:authorities="com.boway.saleservice.data.provider"
-            android:exported="false"
-            />
-        
-        <provider android:name="com.boway.sale.db.NetworkContentProvider"
-            android:authorities="com.boway.saleservice.network.data.provider"
-            android:exported="false"
-            />
         
     </application>
 
