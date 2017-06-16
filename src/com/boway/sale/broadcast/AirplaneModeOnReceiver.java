@@ -22,21 +22,21 @@ public class AirplaneModeOnReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.i(TAG,"jlzou AirplaneModeOnReceiver");
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-		boolean isNeedLock = sp.getBoolean("needLock", false);
-		if(isNeedLock){
-			if(!isAirPlaneModeOn(context))
-			    LockTelephone(context,true);
-    	}else{
-    		if(!isAirPlaneModeOn(context)){
-    			startLockService(context);
-    		}
-    	}
+//		Log.i(TAG,"jlzou AirplaneModeOnReceiver");
+//		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+//		boolean isNeedLock = sp.getBoolean("needLock", false);
+//		if(isNeedLock){
+//			if(!isAirPlaneModeOn(context))
+//			    LockTelephone(context,true);
+//    	}else{
+//    		if(!isAirPlaneModeOn(context)){
+//    			startLockService(context);
+//    		}
+//    	}
 		
-//		if(!isAirPlaneModeOn(context)){
-//			startLockService(context);
-//		}
+		if(!isAirPlaneModeOn(context)){
+			startLockService(context);
+		}
 	}
 	
 	private boolean isAirPlaneModeOn(Context context){
@@ -48,25 +48,6 @@ public class AirplaneModeOnReceiver extends BroadcastReceiver {
         }
             return mode == 1;
     }
-	
-//	private void LockTelephone(final Context context,final boolean enabling){
-//		new Handler().postDelayed(new Runnable(){
-//
-//			@Override
-//			public void run() {
-//				Log.i(TAG,"LockTelephone");
-//				Intent intent = new Intent(context,LockRemindDialog.class);
-//				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-//				context.startActivity(intent);
-//		        Settings.Global.putInt(context.getContentResolver(),  
-//		                Settings.Global.AIRPLANE_MODE_ON,enabling ? 1 : 0);  
-//		        Intent broadcast = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);  
-//		        broadcast.putExtra("state", enabling);  
-//		        context.sendBroadcast(intent);
-//			}
-//			
-//		}, 30 * 1000L);
-//	}
 	
 	private void LockTelephone(Context context,boolean enabling){
 		Log.i(TAG,"LockTelephone");

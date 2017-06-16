@@ -16,18 +16,18 @@ public class MSIMMODEReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		String action = intent.getAction();
-        Log.d(TAG, "jlzou mReceiver action = " + action);
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean needDisableSim1 = sp.getBoolean("needDisableSim1", false);
-        Log.i(TAG, "jlzou needDisableSim1:" + needDisableSim1);
-        boolean needDisableSim2 = sp.getBoolean("needDisableSim2", false);
-        Log.i(TAG, "jlzou needDisableSim2:" + needDisableSim2);
-        
-        if(needDisableSim1 || needDisableSim2){
-        	Intent service = new Intent(context,MSIMMODEService.class);
-        	context.startService(service);
-        }
+//		String action = intent.getAction();
+//        Log.d(TAG, "jlzou mReceiver action = " + action);
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+//        boolean needDisableSim1 = sp.getBoolean("needDisableSim1", false);
+//        Log.i(TAG, "jlzou needDisableSim1:" + needDisableSim1);
+//        boolean needDisableSim2 = sp.getBoolean("needDisableSim2", false);
+//        Log.i(TAG, "jlzou needDisableSim2:" + needDisableSim2);
+//        
+//        if(needDisableSim1 || needDisableSim2){
+//        	Intent service = new Intent(context,MSIMMODEService.class);
+//        	context.startService(service);
+//        }
         
 //        if(needDisableSim1){
 //        	mHandler.sendEmptyMessage(1);

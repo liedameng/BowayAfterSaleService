@@ -1,7 +1,6 @@
 package com.boway.sale;
 
 import android.app.Application;
-import android.util.Log;
 
 public class SaleApplication extends Application {
 	protected static final String TAG = "SaleApplication";
@@ -9,22 +8,12 @@ public class SaleApplication extends Application {
 	private static final String HZ_IMSI_DATABASE_NAME = "imsi_hz.db";
 	private static final String RZ_IMSI_DATABASE_NAME = "imsi_rz.db";
 	private static final String WF_IMSI_DATABASE_NAME = "imsi_wf.db";
-	private static final String BZ_IMSI_DATABASE_NAME = "imsi_bz.db";
-	private static final String YT_IMSI_DATABASE_NAME = "imsi_yt.db";
-	private static final String LY_IMSI_DATABASE_NAME = "imsi_ly.db";
-	private static final String DY_IMSI_DATABASE_NAME = "imsi_dy.db";
-	private static final String ZB_IMSI_DATABASE_NAME = "imsi_zb.db";
 	
 	private static final int HZ_CODE = 1;
 	private static final int RZ_CODE = 2;
 	private static final int WF_CODE = 3;
-	private static final int BZ_CODE = 4;
-	private static final int YT_CODE = 7;
-	private static final int LY_CODE = 9;
-	private static final int DY_CODE = 10;
-	private static final int ZB_CODE = 11;
 	
-	private static final int CODE = ZB_CODE;
+	private static final int CODE = HZ_CODE;
 	
 	
     @Override
@@ -52,16 +41,6 @@ public class SaleApplication extends Application {
     		return RZ_IMSI_DATABASE_NAME;
     	case WF_CODE:
     		return WF_IMSI_DATABASE_NAME;
-    	case BZ_CODE:
-    		return BZ_IMSI_DATABASE_NAME;
-    	case YT_CODE:
-    		return YT_IMSI_DATABASE_NAME;
-    	case LY_CODE:
-    		return LY_IMSI_DATABASE_NAME;
-    	case DY_CODE:
-    		return DY_IMSI_DATABASE_NAME;
-    	case ZB_CODE:
-    		return ZB_IMSI_DATABASE_NAME;
     		default:
     			return HZ_IMSI_DATABASE_NAME;
     	}

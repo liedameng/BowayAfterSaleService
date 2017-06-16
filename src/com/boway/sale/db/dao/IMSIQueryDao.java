@@ -46,7 +46,7 @@ public class IMSIQueryDao {
     	copPhoneAddressDB();
     	File file = mContext.getFilesDir();
 		SQLiteDatabase sql = SQLiteDatabase.openDatabase(file.getAbsolutePath()+"/imsi.db", null, SQLiteDatabase.OPEN_READONLY);
-    	Cursor cursor = sql.rawQuery("select imsi from IMSI_TB where imsi = ?", new String[]{imsi});
+    	Cursor cursor = sql.rawQuery("select imsi from IMSI_TB where imsi = ? or imsi = ?", new String[]{imsi});
     	if(cursor != null && cursor.moveToNext())
 		{
     		isFind = true;
