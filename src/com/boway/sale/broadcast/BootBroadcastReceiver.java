@@ -2,17 +2,25 @@ package com.boway.sale.broadcast;
 
 import com.boway.sale.db.MessageContentProvider;
 import com.boway.sale.db.NetworkContentProvider;
+import com.boway.sale.service.IsLockService;
 import com.boway.sale.service.NetworkSendService;
 import com.boway.sale.service.SendMessageService;
+import com.boway.sale.util.ServiceUtils;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
 
 public class BootBroadcastReceiver extends BroadcastReceiver {
@@ -25,6 +33,25 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i(TAG, "BootBroadcastReceiver");
+		
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean byMyself = sp.getBoolean("isAirplane", false);
+		if(isAirPlaneModeOn(context) && byMyself){
+			Editor editor = sp.edit();
+			editor.putBoolean("needLock", false);
+			editor.putBoolean("isAirplane", false);
+			editor.commit();
+			final ConnectivityManager mgr =
+	                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	        mgr.setAirplaneMode(false);
+		}
+		
+		boolean isRunning = ServiceUtils.isServiceRunning(context, "com.boway.sale.service.IsLockService");
+		if(!isRunning){
+			Intent lockService = new Intent(context,IsLockService.class);
+			context.startService(lockService);
+		}
+			
 		Intent mIntent = new Intent(context,SendMessageService.class);
 		
 //		if(!isFirstSent(context)) {
@@ -87,5 +114,15 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 		}
 		return false;
 	}
+	
+	private boolean isAirPlaneModeOn(Context context){
+        int mode = 0;
+        try {
+            mode = Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON);
+        }catch (SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+            return mode == 1;
+    }
 
 }
