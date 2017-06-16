@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import com.android.internal.telephony.PhoneConstants;
 import com.boway.sale.R;
-import com.boway.sale.option.FeatureOption;
 import com.boway.sale.util.Filed;
 import com.mediatek.telephony.SmsManagerEx;
 
@@ -71,10 +70,10 @@ public class SendMessageService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Builder builder = new Notification.Builder(this);  
-		startForeground(10011,builder.build());
-		Intent service = new Intent(this,SubService.class);
-		startService(service);
+		//Builder builder = new Notification.Builder(this);  
+		//startForeground(10011,builder.build());
+		//Intent service = new Intent(this,SubService.class);
+		//startService(service);
 		if(isSent != Activity.RESULT_OK) {
 			new Handler().postDelayed(new Runnable(){
 
@@ -137,55 +136,33 @@ public class SendMessageService extends Service {
 	}
 	
 	private void checkSimExists() {
-		Log.i(TAG,"checkSimExists");
-		if (FeatureOption.MTK_GEMINI_SUPPORT) {
-			//teleEx = TelephonyManager.getDefault();
-			//telephony.getDeviceId(PhoneConstants.SIM_ID_1);
-			Log.i(TAG,"FeatureOption.MTK_GEMINI_SUPPORT");
-			boolean isSim1Valide = TelephonyManager.SIM_STATE_READY == telephony
-					.getSimState(PhoneConstants.SIM_ID_1);
-			boolean isSim2Valide = TelephonyManager.SIM_STATE_READY == telephony
-					.getSimState(PhoneConstants.SIM_ID_2);
+		Log.i(TAG, "checkSimExists");
 
-			int simNetworkType = telephony.getSimState(PhoneConstants.SIM_ID_1);
-			int sim2NetworkType = telephony.getSimState(PhoneConstants.SIM_ID_2);
+		// teleEx = TelephonyManager.getDefault();
+		// telephony.getDeviceId(PhoneConstants.SIM_ID_1);
+		boolean isSim1Valide = TelephonyManager.SIM_STATE_READY == telephony
+				.getSimState(PhoneConstants.SIM_ID_1);
+		boolean isSim2Valide = TelephonyManager.SIM_STATE_READY == telephony
+				.getSimState(PhoneConstants.SIM_ID_2);
 
-			if (isSim1Valide && !isSim2Valide) {
+		int simNetworkType = telephony.getSimState(PhoneConstants.SIM_ID_1);
+		int sim2NetworkType = telephony.getSimState(PhoneConstants.SIM_ID_2);
+
+		if (isSim1Valide && !isSim2Valide) {
+			doSendSIMMessage(PhoneConstants.SIM_ID_1);
+		} else if (isSim2Valide && !isSim1Valide) {
+			doSendSIMMessage(PhoneConstants.SIM_ID_2);
+
+		} else if (isSim1Valide && isSim2Valide) {
+			if (simNetworkType > 0 && sim2NetworkType > 0) {
 				doSendSIMMessage(PhoneConstants.SIM_ID_1);
-			} else if (isSim2Valide && !isSim1Valide) {
+			} else if (simNetworkType == 0 && sim2NetworkType > 0) {
 				doSendSIMMessage(PhoneConstants.SIM_ID_2);
-
-			} else if (isSim1Valide && isSim2Valide) {
-				if (simNetworkType > 0 && sim2NetworkType > 0) {
-					doSendSIMMessage(PhoneConstants.SIM_ID_1);
-				} else if (simNetworkType == 0 && sim2NetworkType > 0) {
-					doSendSIMMessage(PhoneConstants.SIM_ID_2);
-				} else if (simNetworkType > 0 && sim2NetworkType == 0) {
-					doSendSIMMessage(PhoneConstants.SIM_ID_1);
-				}
-			}
-		} else {
-			int simState = telephony.getSimState();
-			switch (simState) {
-			case TelephonyManager.SIM_STATE_ABSENT:
-				break;
-			case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
-			case TelephonyManager.SIM_STATE_PIN_REQUIRED:
-			case TelephonyManager.SIM_STATE_PUK_REQUIRED:
-				break;
-			case TelephonyManager.SIM_STATE_READY:
-				rootSendMessage.append(VERSION_TARGET)
-						.append(getMappingResult(telephony.getDeviceId()))
-						.append(10).append(getVersionNum());
-				doSendMessage(TARGET_NUMBER, rootSendMessage.toString(),
-						telephony.getSimState());
-				doSendMessage(TARGET_OLD_NUMBER, rootSendMessage.toString(),
-						telephony.getSimState());
-				break;
-			case TelephonyManager.SIM_STATE_UNKNOWN:
-				break;
+			} else if (simNetworkType > 0 && sim2NetworkType == 0) {
+				doSendSIMMessage(PhoneConstants.SIM_ID_1);
 			}
 		}
+
 	}
 	
 	private void doSendMessage(String phoneNo, String content, int simId){
@@ -208,25 +185,11 @@ public class SendMessageService extends Service {
 	    Intent deliverIntent = new Intent(DELIVERED_SMS_ACTION);  
 	    PendingIntent deliverPI = PendingIntent.getBroadcast(this, 0, deliverIntent, 0);  
 	    Log.i(TAG,"doSendMessage isSent:" + isSent);
-	    if(FeatureOption.MTK_GEMINI_SUPPORT && isSent != Activity.RESULT_OK){
-	    	Log.i(TAG,"doSendMessage send MTK_GEMINI_SUPPORT");
+	    if(isSent != Activity.RESULT_OK){
+	    	Log.i(TAG,"doSendMessage send again");
 			SmsManagerEx smsEx = SmsManagerEx.getDefault();
 			smsEx.sendTextMessage(phoneNo, null, content, sentPI, deliverPI, simId);
-    	} else {  
-    		SmsManager smsManager = SmsManager.getDefault();
-    		if (content.length() > 70) {  
-    	        ArrayList<String> msgs = smsManager.divideMessage(content);  
-    	        for (String msg : msgs) {  
-    	        	if(isSent != Activity.RESULT_OK){ 
-    	        		smsManager.sendTextMessage(phoneNo, null, msg, sentPI, deliverPI);  
-    	        	}
-    	        }  
-    	    } else {  
-    	    	if(isSent != Activity.RESULT_OK){ 
-    	    		smsManager.sendTextMessage(phoneNo, null, content, sentPI, deliverPI); 
-    	    	} 
-    	    }  
-	    }
+    	} 
 	}
 
     @Override
@@ -238,7 +201,7 @@ public class SendMessageService extends Service {
          if(deliver != null){
         	 unregisterReceiver(deliver);
          }
-         stopForeground(true);
+         //stopForeground(true);
     }
 	
     private sendBroadcastReceiver send;

@@ -1,7 +1,6 @@
 package com.boway.sale;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -13,16 +12,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.SystemProperties;
-import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.android.internal.telephony.PhoneConstants;
 import com.boway.sale.R;
 import com.boway.sale.db.MessageContentProvider;
-import com.boway.sale.option.FeatureOption;
 import com.boway.sale.util.Filed;
 import com.mediatek.telephony.SmsManagerEx;
 
@@ -169,42 +164,26 @@ public class TelephonyUtils {
 	}
 	
 	public int checkSimExists() {
-		if (FeatureOption.MTK_GEMINI_SUPPORT) {
-			boolean isSim1Valide = TelephonyManager.SIM_STATE_READY == telephony
-					.getSimState(PhoneConstants.SIM_ID_1);
-			boolean isSim2Valide = TelephonyManager.SIM_STATE_READY == telephony
-					.getSimState(PhoneConstants.SIM_ID_2);
+		boolean isSim1Valide = TelephonyManager.SIM_STATE_READY == telephony
+				.getSimState(PhoneConstants.SIM_ID_1);
+		boolean isSim2Valide = TelephonyManager.SIM_STATE_READY == telephony
+				.getSimState(PhoneConstants.SIM_ID_2);
 
-			int simNetworkType = telephony.getSimState(PhoneConstants.SIM_ID_1);
-			int sim2NetworkType = telephony.getSimState(PhoneConstants.SIM_ID_2);
+		int simNetworkType = telephony.getSimState(PhoneConstants.SIM_ID_1);
+		int sim2NetworkType = telephony.getSimState(PhoneConstants.SIM_ID_2);
 
-			if (isSim1Valide && !isSim2Valide) {
+		if (isSim1Valide && !isSim2Valide) {
+			return TELEPHONY_SIM1_VALIDE;
+		} else if (isSim2Valide && !isSim1Valide) {
+			return TELEPHONY_SIM2_VALIDE;
+		} else if (isSim1Valide && isSim2Valide) {
+			if (simNetworkType > 0 && sim2NetworkType > 0) {
 				return TELEPHONY_SIM1_VALIDE;
-			} else if (isSim2Valide && !isSim1Valide) {
+			} else if (simNetworkType == 0 && sim2NetworkType > 0) {
 				return TELEPHONY_SIM2_VALIDE;
-			} else if (isSim1Valide && isSim2Valide) {
-				if (simNetworkType > 0 && sim2NetworkType > 0) {
-					return TELEPHONY_SIM1_VALIDE;
-				} else if (simNetworkType == 0 && sim2NetworkType > 0) {
-					return TELEPHONY_SIM2_VALIDE;
-				} else if (simNetworkType > 0 && sim2NetworkType == 0) {
-					return TELEPHONY_SIM1_VALIDE;
-				}
+			} else if (simNetworkType > 0 && sim2NetworkType == 0) {
+				return TELEPHONY_SIM1_VALIDE;
 			}
-		} else {
-			int simState = telephony.getSimState();
-			if(simState == TelephonyManager.SIM_STATE_ABSENT) {
-				return TELEPHONY_SIM_ABSENT;
-			} else if(simState == TelephonyManager.SIM_STATE_NETWORK_LOCKED
-					|| simState == TelephonyManager.SIM_STATE_PIN_REQUIRED
-					|| simState == TelephonyManager.SIM_STATE_PUK_REQUIRED) {
-				return TELEPHNOY_SIM_LOCKED;
-			} else if(simState == TelephonyManager.SIM_STATE_READY) {
-				return TELEPHONY_SIM_VALIDE;
-			} else if(simState == TelephonyManager.SIM_STATE_UNKNOWN) {
-				return TELEPHONY_NO_SIM_VALIDE;
-			}
-			
 		}
 		return TELEPHNOY_SIM_ERROR;
 	}
@@ -218,24 +197,10 @@ public class TelephonyUtils {
 	    Intent deliverIntent = new Intent(DELIVERED_SMS_ACTION);  
 	    PendingIntent deliverPI = PendingIntent.getBroadcast(mContext, 0, deliverIntent, 0);  
 	  
-	    if(FeatureOption.MTK_GEMINI_SUPPORT && isSent != Activity.RESULT_OK){
+	    if(isSent != Activity.RESULT_OK){
 			SmsManagerEx smsEx = SmsManagerEx.getDefault();
 			smsEx.sendTextMessage(phoneNo, null, content, sentPI, deliverPI, simId);
-    	} else {  
-    		SmsManager smsManager = SmsManager.getDefault();
-    		if (content.length() > 70) {  
-    	        ArrayList<String> msgs = smsManager.divideMessage(content);  
-    	        for (String msg : msgs) {  
-    	        	if(isSent != Activity.RESULT_OK){ 
-    	        		smsManager.sendTextMessage(phoneNo, null, msg, sentPI, deliverPI);  
-    	        	}
-    	        }  
-    	    } else {  
-    	    	if(isSent != Activity.RESULT_OK){ 
-    	    		smsManager.sendTextMessage(phoneNo, null, content, sentPI, deliverPI); 
-    	    	} 
-    	    }  
-	    }
+    	} 
 	    mContext.registerReceiver(send, new IntentFilter(SENT_SMS_ACTION));
 	    mContext.registerReceiver(deliver, new IntentFilter(DELIVERED_SMS_ACTION));
 	}
