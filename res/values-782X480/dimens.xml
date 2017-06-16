@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    <dimen name="boway_sale_logo_height">135dp</dimen>
+    <dimen name="sale_paper_text_size">12sp</dimen>
+    <dimen name="sale_service_tab_height">30dp</dimen>
+    
+    <dimen name="normal_text_size">12sp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+    
+    <dimen name="qr_image_margin">40dp</dimen>
+    
+    <dimen name="qr_image_height">80dp</dimen>
+    
+    <dimen name="qr_image_width">80dp</dimen>
+    
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sale_title_bg_red">#e73b4e</color>
+    <color name="sale_text_color">#ffffff</color>
+    <color name="sale_brack_text_color">#333333</color>
+    <color name="sale_text_dark_color">#7fffffff</color>
+    <color name="sale_text_light_text">#4d4d4d</color>
+    <color name="sale_service_tab_bg">#ce3d37</color>
+    <color name="sale_mode_bg">#ffffff</color>
+    <color name="sale_line">#f8f8f8</color>
+    
+    <color name="wechat_text_color">#3fc44f</color>
+    <color name="browser_text_color">#03b4e0</color>
+    <color name="artificial_text_color">#9E86D9</color>
+    
+    <color name="qr_method">#000000</color>
+    <color name="qr_describe">#4d4d4d</color>
+    <color name="register_success_text_color">#999999</color>
+</resources>

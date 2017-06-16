@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sale_mode_bg"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="18dp"
+        android:text="@string/electronic_register"
+        android:textColor="@color/sale_brack_text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/elec_information_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/electronic_information"
+        android:textColor="@color/sale_brack_text_color"
+        android:textSize="16sp" />
+    
+    <LinearLayout 
+        android:id="@+id/register_code_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_code"
+            android:textColor="@color/sale_text_light_text"
+            android:textSize="16sp"/>
+        
+        <TextView 
+            android:id="@+id/elec_register_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/sale_text_light_text"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    
+    
+    <LinearLayout 
+        android:id="@+id/input_register_code_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/input_register_code"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/sale_brack_text_color"
+            android:textSize="16sp"/>
+        
+        <EditText 
+            android:id="@+id/register_code_edit"
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:background="@drawable/register_edit_background"
+            android:inputType="number"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+    
+    <Button 
+        android:id="@+id/register_btn"
+        android:layout_width="146dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:textSize="16sp"
+        android:text="@string/register_text"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/boway_phone_bg"
+        android:textColor="@color/sale_text_color"/>
+    
+    <TextView 
+        android:id="@+id/register_success_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="140dp"
+        android:text="@string/electronic_register_success_text"
+        android:textColor="@color/register_success_text_color"
+        android:textSize="16sp"/>
+
+</LinearLayout>
